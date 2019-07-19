@@ -1,0 +1,7 @@
+# Copy ssl root certs
+if [ ! -f ca-certificates.crt ]; then
+  docker run --rm debian /bin/bash -c "apt-get update > /dev/null;apt-get install ca-certificates -y  > /dev/null;cat /etc/ssl/certs/ca-certificates.crt" > ca-certificates.crt
+fi
+
+CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o hello-google hello-google .
+docker build -t hello-google .
